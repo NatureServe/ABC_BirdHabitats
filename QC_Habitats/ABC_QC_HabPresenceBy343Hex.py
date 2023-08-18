@@ -21,7 +21,7 @@ finalOutputs = r"S:\Projects\ABC\y2022\Pro\Draft\QC_Efforts\QC_Efforts\Extracted
 arcpy.env.workspace =  r"S:\Projects\ABC\y2022\Pro\Draft\QC_Efforts\QC_Efforts\Default.gdb" #UPDATE
 arcpy.env.overwriteOutput =  True
 
-##testing something out
+#test push
 
 value_list = [] 
 with arcpy.da.SearchCursor(WorkingHabitat, ["HabitatCode","Primary_"]) as cursor:
