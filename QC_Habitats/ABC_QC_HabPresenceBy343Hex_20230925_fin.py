@@ -7,13 +7,18 @@
 
 import arcpy, os, re
 from arcpy.sa import *
+import datetime
+
+current_datetime = datetime.datetime.now()
+timestamp = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+print("Script started at: " + timestamp)
 
 # Check out any necessary licenses.
 arcpy.CheckOutExtension("spatial")
 
 ## Input Variables
 hexgrid = r"S:\Projects\ABC\y2022\Pro\Draft\QC_Efforts\QC_Efforts\Default.gdb\nhf_summary_hexes_l1" ## UPDATE: with entire 343 hex grid, or extract of area of interest
-WorkingHabitat = r"S:\Projects\ABC\y2022\Pro\FinalMapAssembly\combined23_8bit.tif" ## UPDATE: with entire habtiat layer or extract of area of interest
+WorkingHabitat = r"S:\Projects\ABC\y2022\Pro\FinalMapAssembly\combined29_HoleFillingPartial_LU.tif" ## UPDATE: with entire habtiat layer or extract of area of interest
 
 ## Set environments
 intWorkspace = r"S:\Projects\ABC\y2022\Pro\Draft\QC_Efforts\QC_Efforts\IntermediateTables.gdb" #UPDATE
@@ -33,16 +38,15 @@ print("Tabulate area of " + str(len(value_list)) + " NVC groups by 343sqmi hex")
 print("===============================================================================")
 
 ###Tabulate area
-#HabitatTable = r"S:\Projects\ABC\y2022\Pro\FinalMapAssembly\FinalMapAssembly.gdb\BirdHabitats_20230728"
-HabitatTable = r"S:\Projects\ABC\y2022\Symbology\PrimaryHabitatMapping\PrimaryHabitatSymbology_202309.csv"
+HabitatTable = r"S:\Projects\ABC\y2022\Symbology\PrimaryHabitatMapping\PrimaryHabitatSymbology_202311.csv"
 TabArea_out = fr"TabArea_HabinHex"
 arcpy.sa.TabulateArea(hexgrid, "summary_hex_l1_id", WorkingHabitat, "HabitatCod", TabArea_out, WorkingHabitat, "CLASSES_AS_ROWS")
 arcpy.management.JoinField(TabArea_out, "HabitatCod", HabitatTable, "HabitatCode", "MajorGrp_Flat;MajorGrp_Code;Primary_;Primary_Code;Subtype;Subtype_Code;Reference;ClassName;Red;Green;Blue")
 
-print("Looping through and extracting tables of habitats by hex")
+print("1) Looping through and extracting tables of habitats by hex")
 print("===============================================================================")
 
-## Get a list of unique habitat codes
+ Get a list of unique habitat codes
 TabArea_out = r"S:\Projects\ABC\y2022\Pro\Draft\QC_Efforts\QC_Efforts\Default.gdb\TabArea_HabinHex"
 habitat_codes = set(row[0] for row in arcpy.da.SearchCursor(TabArea_out, "Primary_"))
 
@@ -54,13 +58,13 @@ for habcode in habitat_codes:
 
     cleaned_string = re.sub(re.compile(r'[^a-zA-Z0-9]'), '', habcode)
 
-    table_export = arcpy.conversion.TableToTable(TabArea_out, out_path = intWorkspace, out_name =f"hex_{cleaned_string}", where_clause = w_clause)
+    table_export = arcpy.conversion.TableToTable(TabArea_out, out_path = intWorkspace, out_name =f"{cleaned_string}", where_clause = w_clause)
     print(str(habcode) + " Table exported")
 
-print("Looping through habitat tables and creating individual habitat/hex outputs")
+print("2) Looping through habitat tables and creating individual habitat/hex outputs")
 print("===============================================================================")
 
-# create a list of tables
+ create a list of tables
 arcpy.env.workspace = intWorkspace
 habitat_tables = arcpy.ListTables()
 
@@ -89,6 +93,10 @@ for table in habitat_tables:
     #create new feature class from selected features
     arcpy.FeatureClassToFeatureClass_conversion(in_features = selected_features, out_path = finalOutputs, out_name =output_name)
     print(table + " complete")
+##
+
+print("3) Looping through individual habitat outputs and dissolving hexes")
+print("===============================================================================")
 
 # create a list of feature classes
 arcpy.env.workspace = finalOutputs
@@ -96,11 +104,18 @@ habitat_hexes = arcpy.ListFeatureClasses()
 
 # loop through final feature classes and dissolve hexes into one feature class
 for fc in habitat_hexes:
-    finalOutput_dslv = f"{finalOutputs_dslv}\\{fc}_dslv"
+    finalOutput_dslv = f"{finalOutputs_dslv}\\{fc}"
 
     #Dissolve hexes into one feature class
     arcpy.management.Dissolve(fc, finalOutput_dslv,None, None, "MULTI_PART", "DISSOLVE_LINES")
     print(fc + " dissolved")
 
- 
-print ("script complete")
+    #Create Display field
+    expression = f'"{fc}"'
+    arcpy.management.AddField(finalOutput_dslv, "Display", "TEXT")
+    arcpy.management.CalculateField(finalOutput_dslv, "Display", expression)
+    print("Display field created")
+
+current_datetime = datetime.datetime.now()
+timestamp = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+print("Script complete at: " + timestamp)
