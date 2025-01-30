@@ -1,0 +1,4 @@
+﻿Category,InputTheme,DistFilename,FunctionType,a,b,c,w,DecayDistance
+Suburban,Low Intensity Development,DistAcc_Sub_HI.tif,y2,2.5,2,100,400,300
+Suburban,Low Intensity Development,DistAcc_Sub_AK.tif,y2,2.5,2,100,400,300
+Suburban,Low Intensity Development,DistAcc_Sub_Can.tif,y2,2.5,2,100,400,300

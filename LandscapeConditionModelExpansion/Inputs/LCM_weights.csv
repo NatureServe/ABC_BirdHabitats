@@ -1,0 +1,6 @@
+﻿Category,InputTheme,DistFilename,FunctionType,a,b,c,w,DecayDistance
+Urban,High Intensity Development,DAout_Urban.tif,y6,10,0.5,100,500,2000
+Croplands,Agriculture,DAout_Croplands.tif,y3,1,5,100,300,200
+Suburban,Low Intensity Development,DistAcc_Sub_HI.tif,y2,2.5,2,100,400,300
+Suburban,Low Intensity Development,DistAcc_Sub_AK.tif,y2,2.5,2,100,400,300
+Suburban,Low Intensity Development,DistAcc_Sub_Can.tif,y2,2.5,2,100,400,300
