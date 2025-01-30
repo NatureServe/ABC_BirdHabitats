@@ -18,7 +18,7 @@ arcpy.CheckOutExtension("spatial")
 
 ## Input Variables
 hexgrid = r"S:\Projects\ABC\y2022\Pro\Draft\QC_Efforts\QC_Efforts\Default.gdb\nhf_summary_hexes_l1" ## UPDATE: with entire 343 hex grid, or extract of area of interest
-WorkingHabitat = r"S:\Projects\ABC\y2022\Pro\FinalMapAssembly\combined29_HoleFillingPartial_LU.tif" ## UPDATE: with entire habtiat layer or extract of area of interest
+WorkingHabitat = r"S:\Projects\_Workspaces\Christopher_Tracey\ABC_try5\Combined30_AllHolesFilled_LU.tif" ## UPDATE: with entire habtiat layer or extract of area of interest
 
 ## Set environments
 intWorkspace = r"S:\Projects\ABC\y2022\Pro\Draft\QC_Efforts\QC_Efforts\IntermediateTables.gdb" #UPDATE
@@ -46,7 +46,7 @@ arcpy.management.JoinField(TabArea_out, "HabitatCod", HabitatTable, "HabitatCode
 print("1) Looping through and extracting tables of habitats by hex")
 print("===============================================================================")
 
- Get a list of unique habitat codes
+# Get a list of unique habitat codes
 TabArea_out = r"S:\Projects\ABC\y2022\Pro\Draft\QC_Efforts\QC_Efforts\Default.gdb\TabArea_HabinHex"
 habitat_codes = set(row[0] for row in arcpy.da.SearchCursor(TabArea_out, "Primary_"))
 
@@ -64,7 +64,7 @@ for habcode in habitat_codes:
 print("2) Looping through habitat tables and creating individual habitat/hex outputs")
 print("===============================================================================")
 
- create a list of tables
+# create a list of tables
 arcpy.env.workspace = intWorkspace
 habitat_tables = arcpy.ListTables()
 
