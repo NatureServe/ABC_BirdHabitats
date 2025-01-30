@@ -1,4 +1,4 @@
-## American Bird Conservancy Bird Habitats of North America
+# American Bird Conservancy Bird Habitats of North America
 This analysis was developed for the American Bird Conservancy project in FY2025 by Hannah Ceasar, Jordana Anderson, Sara DeCaro and Chris Tracey
 The purpose of this analysis is as follows:
 - Calculate habtiat threat scores for all bird habitats (at the subtype level) included in the Bird Habitats of North America map
