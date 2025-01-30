@@ -1,4 +1,5 @@
-﻿This analysis was developed for the American Bird Conservancy project in FY2025 by Hannah Ceasar, Jordana Anderson, Sara DeCaro and Chris Tracey
+##American Bird Conservancy Bird Habitats of North America
+This analysis was developed for the American Bird Conservancy project in FY2025 by Hannah Ceasar, Jordana Anderson, Sara DeCaro and Chris Tracey
 The purpose of this analysis is as follows:
 - Calculate habtiat threat scores for all bird habitats (at the subtype level) included in the Bird Habitats of North America map
 - Create 49 square mile (wheel) hexagon based range maps for both primary and subtype habitats for display in the ABC app
@@ -8,7 +9,7 @@ Important things to note:
 - To increase efficiency processes within both folders can be run simultaneously, the final step of 2_ABC_RangeMapCreation requires the output of 1_ABC_HabitatThreatsAnalysis
 - When small updates are made to the ABC habitat map (ex. updating subtype names, extents etc.) 2_ABC_RangeMapCreation process can be modified to only run on a list of subtypes. Further details can be found in the 2_ABC_RangeMapCreation scripts.
 
-ABC Threats Analysis: 1_ABC_HabitatThreatsAnalysis
+#ABC Threats Analysis: 1_ABC_HabitatThreatsAnalysis
 1. 1_create_geodatabase *takes only minutes to run
   a. This creates the gdbs and folders (if they don’t already exist – the scripts check for their existence first), reads in the Habitat Map EXPORT CSV as a table, creates an empty final table to output results to and populates it with the fields from the EXPORT CSV.
 2. 2_tabulate_rsr *takes only minutes to run
@@ -31,7 +32,7 @@ ABC Threats Analysis: 1_ABC_HabitatThreatsAnalysis
   b. Remember to join the 'Raw Obligation scores' and 'Raw conservation Concern scores' sent by David from ABC to the final table prior to running the deciles for those categories.
       1. Replace the null values in each of these categories with zero prior to running the deciles.
 
-ABC Range Map Creation: 2_ABC_RangeMapCreation
+#ABC Range Map Creation: 2_ABC_RangeMapCreation
 1. 1_PrimaryHabitats_TabulateAreaInWheels -- Calculates area of each primary habitat in each wheel
 2. 2_PrimaryHabitats_CreateRangeMaps -- Creates wheel based range map for each primary habitat
 3. 3_SubtypeHabitats_TabulateAreaInWheels -- Calculates area of each subtype habitat in each wheel
